@@ -26,7 +26,19 @@ function addProjectDetails(e) {
 	// get rid of 'project' from the front of the id 'project3'
 	var idNumber = projectID.substr('project'.length);
 
+	var URL = "/project/" + idNumber;
+	$.get(URL, addProject);
+
 	console.log("User clicked on project " + idNumber);
+	console.log(URL);
+}
+
+function addProject(result) {
+	console.log(result);
+	var projectHTML = '<img src="' + result['image'] + '" class="detailsImage">' 
+	+ '<h5>' + result['date'] + '</h5>' + '<p>' + result['summary'] + '</p>';
+
+	$("#project-description").html(projectHTML);
 }
 
 /*
@@ -34,5 +46,12 @@ function addProjectDetails(e) {
  * and apply it
  */
 function randomizeColors(e) {
+	var URL = "/palette";
+	$.get(URL, addColor);
+
 	console.log("User clicked on color button");
+}
+
+function addColor(result) {
+	console.log(result);
 }
