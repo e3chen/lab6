@@ -27,19 +27,33 @@ function addProjectDetails(e) {
 	var idNumber = projectID.substr('project'.length);
 
 	var URL = "/project/" + idNumber;
-	$.get(URL, addProject);
-
 	console.log("User clicked on project " + idNumber);
 	console.log(URL);
+
+	// $.get(URL, addProject);
+
+	$.get(URL, function(result) {
+		var projectHTML = '<img src="' + result['image'] + '" class="detailsImage">' 
+		+ '<h5>' + result['date'] + '</h5>' + '<p>' + result['summary'] + '</p>';
+		
+		$("#" + projectID + " div.thumbnail div.details").html(projectHTML);
+	});
+
+	
 }
 
-function addProject(result) {
-	console.log(result);
-	var projectHTML = '<img src="' + result['image'] + '" class="detailsImage">' 
-	+ '<h5>' + result['date'] + '</h5>' + '<p>' + result['summary'] + '</p>';
+// function addProject(result) {
+// 	console.log(result);
 
-	$("#project-description").html(projectHTML);
-}
+// 	var projectID = $(this).closest('.project').attr('id');
+
+// 	// $(".details").html(projectHTML);
+// 	var projectHTML = '<img src="' + result['image'] + '" class="detailsImage">' 
+// 	+ '<h5>' + result['date'] + '</h5>' + '<p>' + result['summary'] + '</p>';
+	
+// 	$("#" + projectID + " div.thumbnail div.details").html(projectHTML);
+	
+// }
 
 /*
  * Make an AJAX call to retrieve a color palette for the site
@@ -47,11 +61,20 @@ function addProject(result) {
  */
 function randomizeColors(e) {
 	var URL = "/palette";
-	$.get(URL, addColor);
-
 	console.log("User clicked on color button");
-}
 
-function addColor(result) {
-	console.log(result);
+	$.get(URL, function(result) {
+
+		var colors = result['hex'];
+		console.log(result['hex']);
+
+		$('body').css('background-color', colors[0]);
+		$('.thumbnail').css('background-color', colors[1]);
+		$('h1, h2, h3, h4, h5, h5').css('color', colors[2]);
+		$('p').css('color', colors[3]);
+		$('.project img').css('opacity', .75);
+
+	});
+
+	
 }
